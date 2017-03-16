@@ -391,6 +391,8 @@ struct TRENDSlc
 
     uint32_t Ch3mTrigRate;
 
+    uint32_t MaxCoarse;
+
   }raw_data;
 
   
@@ -410,7 +412,8 @@ struct TRENDSlc
 	   uint32_t Ch3pTrigRate,
 	   uint32_t Ch1mTrigRate,
 	   uint32_t Ch2mTrigRate,
-	   uint32_t Ch3mTrigRate
+	   uint32_t Ch3mTrigRate,
+	   uint32_t MaxCoarse
 	   );
 
   TRENDSlc(const std::map<std::string,message_data>& md);

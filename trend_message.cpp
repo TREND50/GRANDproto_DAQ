@@ -2,7 +2,7 @@
 #include "trend_message.hpp"
 #include <iomanip>
 #include <sstream>
-
+#include <cmath>
 std::string ip2str(uint32_t ip)
 {
   int ip1=(ip&0xff000000)>>24;
@@ -684,7 +684,10 @@ TRENDSlc::TRENDSlc()
   raw_data.Ch1mTrigRate=0;
   raw_data.Ch2mTrigRate=0;
   raw_data.Ch3mTrigRate=0;
+
+  raw_data.MaxCoarse=0;
 }
+
 
 TRENDSlc::TRENDSlc(uint32_t IP,
 		   uint16_t VPower1,uint16_t VPower2,
@@ -700,7 +703,8 @@ TRENDSlc::TRENDSlc(uint32_t IP,
 		   uint32_t Ch3pTrigRate,
 		   uint32_t Ch1mTrigRate,
 		   uint32_t Ch2mTrigRate,
-		   uint32_t Ch3mTrigRate
+		   uint32_t Ch3mTrigRate,
+		   uint32_t MaxCoarse
 		   )
 {
   raw_data.zero1=
@@ -735,6 +739,8 @@ TRENDSlc::TRENDSlc(uint32_t IP,
   raw_data.Ch1mTrigRate=Ch1mTrigRate;
   raw_data.Ch2mTrigRate=Ch2mTrigRate;
   raw_data.Ch3mTrigRate=Ch3mTrigRate;
+
+  raw_data.MaxCoarse=MaxCoarse;
 }
 
 TRENDSlc::TRENDSlc(const std::map<std::string,message_data>& md)
@@ -755,7 +761,8 @@ TRENDSlc::TRENDSlc(const std::map<std::string,message_data>& md)
 	    fetch_md("Ch3+TrigRate",md),
 	    fetch_md("Ch1-TrigRate",md),
 	    fetch_md("Ch2-TrigRate",md),
-	    fetch_md("Ch3-TrigRate",md)
+	    fetch_md("Ch3-TrigRate",md),
+	    fetch_md("MaxCoarse",md)
 	    )
 {}
 
@@ -774,6 +781,34 @@ uint32_t TRENDSlc::type_code()const
   return 0x5B00;
 }
 
+double decode_vpower23(uint16_t x)
+{
+  return double(x)/(uint16_t(1)<<12)*6.9/2.2*5;
+}
+
+double decode_vpower1456(uint16_t x)
+{
+  return double(x)/(uint16_t(1)<<12)*24.0/2.0*5;
+}
+
+double decode_th(uint16_t x)
+{
+  return (double)x*.5;
+}
+
+double decode_temp(uint16_t x)
+{
+  int sign=     x&0b1000000000000;
+  uint16_t x12= x&0b111111111111;
+
+  if(sign)
+    {
+      x12=(~x12) &0b111111111111;
+    }
+  return sign?(-(x12*.0625)):(x12*.0625);
+}
+
+
 std::string TRENDSlc::to_string(bool use_hex)const
 {
   std::ostringstream oss;
@@ -782,18 +817,18 @@ std::string TRENDSlc::to_string(bool use_hex)const
       oss<<std::hex;
     }
   oss<<"IP:"<<ip2str(raw_data.IP)<<std::endl
-     <<"VPower1:"<<raw_data.VPower1<<std::endl
-     <<"VPower2:"<<raw_data.VPower2<<std::endl
-     <<"VPower3:"<<raw_data.VPower3<<std::endl
-     <<"VPower4:"<<raw_data.VPower4<<std::endl
-     <<"VPower5:"<<raw_data.VPower5<<std::endl
-     <<"VPower6:"<<raw_data.VPower6<<std::endl;
+     <<"VPower1:"<<decode_vpower1456(raw_data.VPower1)<<std::endl
+     <<"VPower2:"<<decode_vpower23(raw_data.VPower2)<<std::endl
+     <<"VPower3:"<<decode_vpower23(raw_data.VPower3)<<std::endl
+     <<"VPower4:"<<decode_vpower1456(raw_data.VPower4)<<std::endl
+     <<"VPower5:"<<decode_vpower1456(raw_data.VPower5)<<std::endl
+     <<"VPower6:"<<decode_vpower1456(raw_data.VPower6)<<std::endl;
 
-  oss<<"[Th1-,Th1+]:"<<raw_data.Th1m<<" "<<raw_data.Th1p<<std::endl
-     <<"[Th2-,Th2+]:"<<raw_data.Th2m<<" "<<raw_data.Th2p<<std::endl
-     <<"[Th3-,Th3+]:"<<raw_data.Th3m<<" "<<raw_data.Th3p<<std::endl;
+  oss<<"[Th1-,Th1+]:"<<decode_th(raw_data.Th1m)<<" "<<decode_th(raw_data.Th1p)<<std::endl
+     <<"[Th2-,Th2+]:"<<decode_th(raw_data.Th2m)<<" "<<decode_th(raw_data.Th2p)<<std::endl
+     <<"[Th3-,Th3+]:"<<decode_th(raw_data.Th3m)<<" "<<decode_th(raw_data.Th3p)<<std::endl;
 
-  oss<<"Temp:"<<raw_data.Temp<<std::endl;
+  oss<<"Temp:"<<decode_temp(raw_data.Temp)<<std::endl;
   oss<<"TotalTrigRate:"<<raw_data.TotalTrigRate<<std::endl;
   oss<<"Ch1+TrigRate:"<<raw_data.Ch1pTrigRate<<std::endl
      <<"Ch2+TrigRate:"<<raw_data.Ch2pTrigRate<<std::endl
@@ -801,6 +836,8 @@ std::string TRENDSlc::to_string(bool use_hex)const
      <<"Ch1-TrigRate:"<<raw_data.Ch1mTrigRate<<std::endl
      <<"Ch2-TrigRate:"<<raw_data.Ch2mTrigRate<<std::endl
      <<"Ch3-TrigRate:"<<raw_data.Ch3mTrigRate<<std::endl;
+  
+  oss<<"MaxCoarse:"<<raw_data.MaxCoarse<<std::endl;
   return oss.str();
 }
 

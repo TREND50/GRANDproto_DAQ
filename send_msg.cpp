@@ -179,12 +179,47 @@ int main(int argc, char* argv[])
 	  istringstream iss(line+" ");
 	  std::string key,type;
 	  iss>>key>>type;
+	  
 	  if(type=="SCALAR")
 	    {
 	      uint64_t value=0;
 	      std::string token;
 	      iss>>token;
-	      if(token.size()<2)
+	      if(message_type=="TRENDSlc"&&(key=="VPower2"||key=="VPower3"))
+		{
+		  constexpr double factor=(+6.9/2.2)*5/(1ul<<12);
+		  double x=std::stod(token);
+		  value=x/factor;
+		}
+	      else if(message_type=="TRENDSlc"&&(key=="VPower1"||
+						 key=="VPower4"||
+						 key=="VPower5"||
+						 key=="VPower6"))
+		{
+		  constexpr double factor=(+24./2.)*5/(1ul<<12);
+		  double x=std::stod(token);
+		  value=x/factor;
+
+		}
+	      else if(message_type=="TRENDSlc"&&(key=="Th1-"||key=="Th1+"||
+						 key=="Th2-"||key=="Th2+"||
+						 key=="Th3-"||key=="Th3+"))
+		{
+		  constexpr double factor=.5;
+		  double x=std::stod(token);
+		  value=x/factor;
+		}
+	      else if(message_type=="TRENDSlc"&&key=="Temp")
+		{
+		  double v=std::stod(token)/.0625;
+		  uint16_t result=std::abs(v);
+		  if(v<0)
+		    {
+		      result=(~result)&(0b111111111111)+(1<<13);
+		    }
+		  value=result;
+		}
+	      else if(token.size()<2)
 		{
 		  value=std::stoull(token);
 		}

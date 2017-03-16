@@ -255,6 +255,16 @@ int main(int argc, char* argv[])
 	  ofs<<std::endl;
 	});
     }
+
+  std::shared_ptr<int> pmsg_cnt=std::make_shared<int>(0);
+  ts.register_handler([pmsg_cnt](std::shared_ptr<base_message> pmsg){
+      if((*pmsg_cnt)++%1000==0)
+	{
+	  std::cerr<<pmsg->to_string(false);
+	  std::cerr<<std::endl;
+	}
+    });
+  
   //ts.listen(port);
   ts.run(port);
   /*
