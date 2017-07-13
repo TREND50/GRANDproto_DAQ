@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ $# != 5 ]
 then
@@ -14,22 +14,26 @@ CFG=$3
 DUMP_FILE=$4
 SESSION_NAME=$5
 
+session_exists=0
+
 if tmux ls 2>/dev/null
 then
-    for i in `tmux ls|awk '{print $1}'`
+    for i in `tmux ls|awk -F ':' '{print $1}'`
     do
-	tmux kill-window -t $SESSION_NAME
+		if [ $i == $SESSION_NAME ]
+		then
+			session_exists=1
+			break
+		fi
     done
 fi
 
+if [ $session_exists == 0 ]
+then
+        echo "Starting session"
+	tmux new -d -s $SESSION_NAME
+fi
 
-tmux new -d -s $SESSION_NAME
-tmux split-window -d
-tmux next-layout
-tmux next-layout
 tmux select-pane -t 0
 tmux send-keys "./trend_server $SPORT $DUMP_FILE" C-m
-tmux select-pane -t 1
-tmux send-keys "./send_msg $BIP $BPORT $CFG; sleep 10; exit" C-m
-echo "./trend_server $SPORT $DUMP_FILE" C-m
-#tmux attach
+./send_msg $BIP $BPORT $CFG

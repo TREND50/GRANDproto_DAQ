@@ -1,11 +1,13 @@
 #!/bin/bash
-for i in {1..12}; 
+#for i in {0..127}; 
+for i in {0..0}; 
   do 
-  echo $i
-  for j in {1..1}; 
-    do 
-    echo $i $j
-    ./calib.sh $i $j
-    sleep 5
+  let att1=$i*10
+  for j in {0..127}; 
+    do
+    let att2=$j*1
+    echo $att1 $att2
+    ./calib.sh $1 $att2 $att2
+    #./calib.sh $1 $att1 $att2
   done
 done
