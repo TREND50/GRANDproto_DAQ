@@ -1,0 +1,70 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+FormatStrFormatter	../tools/joint_plot.py	/^from matplotlib.ticker import MultipleLocator, FormatStrFormatter$/;"	kind:namespace	line:9
+GridSpec	../tools/joint_plot.py	/^from matplotlib.gridspec import GridSpec$/;"	kind:namespace	line:8
+MultipleLocator	../tools/joint_plot.py	/^from matplotlib.ticker import MultipleLocator, FormatStrFormatter$/;"	kind:namespace	line:9
+Writer	../test_suit/animate.py	/^Writer = animation.writers['imagemagick_file']$/;"	kind:variable	line:12
+ani	../test_suit/animate.py	/^ani=animation.FuncAnimation(fig,run,data_gen,repeat=False,blit=True,interval=2);$/;"	kind:variable	line:47
+animate.py	../test_suit/animate.py	1;"	kind:file	line:1
+animation	../test_suit/animate.py	/^import matplotlib.animation as animation$/;"	kind:namespace	line:7
+astropy	../test_suit/animate.py	/^import astropy.io.fits as pyfits$/;"	kind:namespace	line:8
+contour_levels	../tools/joint_plot.py	/^def contour_levels(h,levels=[.997,.95,.68]):$/;"	kind:function	line:37
+data	../tools/histogram.py	/^data=[]$/;"	kind:variable	line:15
+data	../tools/joint_plot.py	/^	data=np.loadtxt(sys.argv[1])$/;"	kind:variable	line:136
+data_gen	../test_suit/animate.py	/^def data_gen(t=0):$/;"	kind:function	line:31
+fig	../test_suit/animate.py	/^fig=plt.figure()$/;"	kind:variable	line:46
+filter_len	../test_suit/animate.py	/^filter_len=10$/;"	kind:variable	line:19
+filter_std	../test_suit/animate.py	/^filter_std=3$/;"	kind:variable	line:20
+hide_last_label	../tools/joint_plot.py	/^def hide_last_label(ax,hide_x=False,hide_y=False):$/;"	kind:function	line:21
+hide_tick_labels	../tools/joint_plot.py	/^def hide_tick_labels(ax,hide_x=False,hide_y=False):$/;"	kind:function	line:12
+histogram.py	../tools/histogram.py	1;"	kind:file	line:1
+imsize	../test_suit/rastrigin.py	/^imsize=1024;$/;"	kind:variable	line:5
+init	../test_suit/animate.py	/^def init():$/;"	kind:function	line:28
+init_axes	../tools/joint_plot.py	/^def init_axes(vars,axis_formatter):$/;"	kind:function	line:53
+io	../test_suit/animate.py	/^import astropy.io.fits as pyfits$/;"	kind:namespace	line:8
+joint_plot	../tools/joint_plot.py	/^def joint_plot(data,vars,sigma_levels=[0.997,0.95,0.68],axis_formatter=FormatStrFormatter("%.1E")):$/;"	kind:function	line:87
+joint_plot.py	../tools/joint_plot.py	1;"	kind:file	line:1
+math	../test_suit/animate.py	/^import math$/;"	kind:namespace	line:9
+math	../test_suit/rastrigin.py	/^    import math$/;"	kind:namespace	line:11
+math	../test_suit/rastrigin.py	/^import math$/;"	kind:namespace	line:4
+matplotlib	../test_suit/animate.py	/^import matplotlib$/;"	kind:namespace	line:4
+matplotlib	../test_suit/animate.py	/^import matplotlib.animation as animation$/;"	kind:namespace	line:7
+matplotlib	../test_suit/animate.py	/^import matplotlib.pyplot as plt$/;"	kind:namespace	line:6
+matplotlib	../test_suit/rastrigin.py	/^import matplotlib.pylab as plt$/;"	kind:namespace	line:3
+matplotlib	../tools/joint_plot.py	/^import matplotlib.pylab as plt$/;"	kind:namespace	line:3
+min_beta	../test_suit/animate.py	/^min_beta=.002$/;"	kind:variable	line:18
+mx	../test_suit/animate.py	/^mx=pyfits.open('output.fits')[0].data$/;"	kind:variable	line:16
+mx	../test_suit/rastrigin.py	/^mx=numpy.zeros([imsize,imsize])$/;"	kind:variable	line:19
+nbins	../tools/histogram.py	/^nbins=int(sys.argv[2])$/;"	kind:variable	line:12
+ndimage	../tools/joint_plot.py	/^import scipy.ndimage$/;"	kind:namespace	line:6
+np	../test_suit/animate.py	/^import numpy as np$/;"	kind:namespace	line:3
+np	../tools/joint_plot.py	/^import numpy as np$/;"	kind:namespace	line:4
+ntemp	../test_suit/animate.py	/^ntemp=mx.shape[0]$/;"	kind:variable	line:17
+numpy	../test_suit/rastrigin.py	/^import numpy$/;"	kind:namespace	line:2
+numpy	../tools/histogram.py	/^import numpy$/;"	kind:namespace	line:3
+plt	../test_suit/animate.py	/^import matplotlib.pyplot as plt$/;"	kind:namespace	line:6
+plt	../test_suit/rastrigin.py	/^import matplotlib.pylab as plt$/;"	kind:namespace	line:3
+plt	../tools/joint_plot.py	/^import matplotlib.pylab as plt$/;"	kind:namespace	line:3
+pyfits	../test_suit/animate.py	/^import astropy.io.fits as pyfits$/;"	kind:namespace	line:8
+rastrigin	../test_suit/rastrigin.py	/^def rastrigin(x):$/;"	kind:function	line:10
+rastrigin.py	../test_suit/rastrigin.py	1;"	kind:file	line:1
+rotate_tick_labels	../tools/joint_plot.py	/^def rotate_tick_labels(ax,angle=45,rotate_x=False,rotate_y=False):$/;"	kind:function	line:27
+run	../test_suit/animate.py	/^def run(data):$/;"	kind:function	line:37
+scipy	../test_suit/animate.py	/^import scipy.signal as ss$/;"	kind:namespace	line:10
+scipy	../tools/joint_plot.py	/^import scipy.ndimage$/;"	kind:namespace	line:6
+sp	../tools/joint_plot.py	/^import scipy as sp$/;"	kind:namespace	line:5
+ss	../test_suit/animate.py	/^import scipy.signal as ss$/;"	kind:namespace	line:10
+style	../tools/histogram.py	/^style=2$/;"	kind:variable	line:6
+sys	../tools/histogram.py	/^import sys$/;"	kind:namespace	line:4
+sys	../tools/joint_plot.py	/^import sys$/;"	kind:namespace	line:7
+writer	../test_suit/animate.py	/^writer = Writer(fps=15)$/;"	kind:variable	line:13
+x	../test_suit/rastrigin.py	/^    x=i\/float(imsize)*(xmax-xmin)+xmin$/;"	kind:variable	line:21
+x	../tools/histogram.py	/^        x=(edges[i+1]+edges[i])\/2$/;"	kind:variable	line:31
+xe	../tools/histogram.py	/^        xe=(edges[i+1]-edges[i])\/2$/;"	kind:variable	line:32
+xmax	../test_suit/rastrigin.py	/^xmax=10.;$/;"	kind:variable	line:7
+xmin	../test_suit/rastrigin.py	/^xmin=-10.;$/;"	kind:variable	line:6
+y	../test_suit/rastrigin.py	/^        y=j\/float(imsize)*(xmax-xmin)+xmin$/;"	kind:variable	line:23
