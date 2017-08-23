@@ -1,4 +1,4 @@
-targets:trend_server send_msg bcast_msg trend_daqconf trend_getconf trend_netconf
+targets:trend_server send_msg bcast_msg trend_daqconf trend_getconf trend_netconf dump_bin_file
 
 CXX=clang++
 CXX_FLAGS=-O3 -pthread -std=c++14 -g
@@ -32,6 +32,9 @@ trend_netconf.o: trend_netconf.cpp
 trend_message.o:trend_message.cpp trend_message.hpp
 	$(CXX) -c $(CXX_FLAGS) $<
 
+data_file.o:data_file.cpp data_file.hpp
+	$(CXX) -c $(CXX_FLAGS) $<
+
 send_msg:send_msg.o trend_message.o
 	$(CXX) $^ -o $@ $(LD_FLAGS)
 
@@ -42,6 +45,12 @@ bcast_msg:bcast_msg.o
 	$(CXX) $^ -o $@ $(LD_FLAGS)
 
 bcast_msg.o:bcast_msg.cpp
+	$(CXX) -c $(CXX_FLAGS) $<
+
+dump_bin_file: dump_bin_file.o data_file.o
+	$(CXX) $^ -o $@ $(LD_FLAGS)
+
+dump_bin_file.o: dump_bin_file.cpp
 	$(CXX) -c $(CXX_FLAGS) $<
 
 clean:
