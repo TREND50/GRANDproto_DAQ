@@ -1,12 +1,25 @@
 #include "data_file.hpp"
 
 
+file_header_t::file_header_t(const basic_file_header_t& bfh, const std::vector<std::uint32_t>& ah)
+:basic_header(bfh), additional_header(ah)
+{
+    int additional_length=additional_header.size();
+    basic_header.length=(additional_length-1)*sizeof(std::uint32_t)+sizeof(basic_header);
+}
+
 void file_header_t::read_from(std::istream& is)
 {
     is.read((char*)&basic_header, sizeof(basic_header));
     int additional_length=(basic_header.length-sizeof(basic_header))/sizeof(std::int32_t)+1;
     additional_header.resize(additional_length);
     is.read((char*)additional_header.data(), additional_length*sizeof(std::int32_t));
+}
+
+void file_header_t::write_to(std::ostream& os)const
+{
+    os.write((char*)&basic_header, sizeof(basic_header));
+    os.write((char*)additional_header.data(), additional_header.size()*sizeof(std::int32_t));
 }
 
 std::size_t file_header_t::size()const
@@ -67,21 +80,35 @@ std::ostream& operator<<(std::ostream& os, const local_station_header_t& lsh)
         <<"sampling freq = "<<lsh.sampling_freq<<std::endl
         <<"channel_mask ="  <<lsh.channel_mask<<std::endl
         <<"adc resolution = "<<lsh.ADC_resolution<<std::endl
-        <<"trace length = " <<lsh.tracelength<<std::endl
+        <<"trace length = " <<lsh.trace_length<<std::endl
         <<"version = "      <<lsh.version<<std::endl;
     return os;
 }
 
+local_station_t::local_station_t(const local_station_header_t& lsh, 
+const std::vector<std::uint16_t>& hd, const std::vector<std::uint16_t>& ab)
+:header(lsh), header_data(hd), adc_buffer(ab)
+{
+    header.length=size()/2;
+    header.header_length=hd.size()+13;
+}
 
 void local_station_t::read_from(std::istream& is)
 {
     is.read((char*)&header, sizeof(header));
     int header_length=header.header_length-13;//13 is a magic number
-    int data_length=header.tracelength;
+    int data_length=header.trace_length;
     header_data.resize(header_length);
     adc_buffer.resize(data_length);
     is.read((char*)header_data.data(), sizeof(std::uint16_t)*header_data.size());
     is.read((char*)adc_buffer.data(), sizeof(std::uint16_t)*adc_buffer.size());
+}
+
+void local_station_t::write_to(std::ostream& os)const
+{
+    os.write((char*)&header, sizeof(header));
+    os.write((char*)header_data.data(), sizeof(std::uint16_t)*header_data.size());
+    os.write((char*)adc_buffer.data(), sizeof(std::uint16_t)*adc_buffer.size());
 }
 
 std::size_t local_station_t::size()const
@@ -107,6 +134,17 @@ std::ostream& operator<<(std::ostream& os, const local_station_t& ls)
     return os;
 }
 
+event_t::event_t(const event_header_t& h)
+:header(h)
+{
+    header.header_length=size()-3;
+}
+
+void event_t::append_local_station(const local_station_t& ls)
+{
+    local_station_list.push_back(ls);
+    header.header_length=size()-4;
+}
 
 void event_t::read_from(std::istream& is)
 {
@@ -117,6 +155,16 @@ void event_t::read_from(std::istream& is)
         local_station_t ls;
         ls.read_from(is);
         local_station_list.push_back(ls);
+    }
+}
+
+void event_t::write_to(std::ostream& os)const
+{
+    os.write((char*)&header, sizeof(header));
+    int nls=header.ls_cnt;
+    for(int i=0;i<nls;++i)
+    {
+        local_station_list[i].write_to(os);
     }
 }
 
