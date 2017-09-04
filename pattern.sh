@@ -32,6 +32,7 @@ else
 fi
 echo 'Calling ' $patterncfg
 
+tmux kill-window -t "aaa"
 
 # Execute run
 $DAQDIR/run.sh  1236 192.168.1.1$BOARDID $patterncfg $DATADIR/P$NRUN'_b'$BOARDID.data "aaa"

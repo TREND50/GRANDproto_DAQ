@@ -36,4 +36,5 @@ fi
 
 tmux select-pane -t 0
 tmux send-keys "./trend_server $SPORT $DUMP_FILE" C-m
+sleep 1
 ./send_msg $BIP $BPORT $CFG

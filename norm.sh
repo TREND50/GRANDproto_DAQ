@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "./norm.sh [BOAR_ID] [Th1+] [Th1-] [Th2+] [Th2-] [Th3+] [Th3-]"
+
 DAQDIR=`dirname $0`
 # Pattern run
 # Parameters: pattern mode
