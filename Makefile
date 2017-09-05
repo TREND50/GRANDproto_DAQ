@@ -5,7 +5,7 @@ CXX_FLAGS=-O3 -pthread -std=c++14 -g
 
 LD_FLAGS=-lboost_system -pthread -std=c++14
 
-trend_server:trend_server.o trend_message.o
+trend_server:trend_server.o trend_message.o data_file.o
 	$(CXX) $^ -o $@ $(LD_FLAGS)
 
 trend_server.o:trend_server.cpp
@@ -35,7 +35,7 @@ trend_message.o:trend_message.cpp trend_message.hpp
 data_file.o:data_file.cpp data_file.hpp
 	$(CXX) -c $(CXX_FLAGS) $<
 
-send_msg:send_msg.o trend_message.o
+send_msg:send_msg.o trend_message.o data_file.o
 	$(CXX) $^ -o $@ $(LD_FLAGS)
 
 send_msg.o:send_msg.cpp
