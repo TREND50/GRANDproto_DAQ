@@ -101,20 +101,23 @@ elif cas=="1":
 elif cas=="2":
 
 	tab=read()
+        print tab
+  	e=2730*np.ones(720) #On declare un tableau de 720 valeur
 
-  	c=4032*np.ones(720) #On declare un tableau de 720 valeur
-	
-	if np.array_equal(tab,c):  #On test la moyenne et le nombre donnees
+  	m =range(720)	
+  	m2 = (m%2 != 0)  # Start with 2730
+  	e[m2] = 1365
+
+	if np.array_equal(tab,e):
 		affiche()
 		sys.exit(int(sys.argv[1])) #Renvoie la valeur de la variable cas
-
 	else:	
 		sys.exit(-1)  #renvoie 255
 
 elif cas=="3":
 
 	tab=read()
-
+        print tab
   	d=819*np.ones(720) #On declare un tableau de 720 valeur
 
 
@@ -128,16 +131,13 @@ elif cas=="3":
 elif cas=="4":
 
 	tab=read()
-
-  	e=2730*np.ones(720) #On declare un tableau de 720 valeur
-
-  	m =range(720)	
-  	m2 = (m%2 != 0)  # Start with 2730
-  	e[m2] = 1365
-
-	if np.array_equal(tab,e):
+        print tab
+  	c=4032*np.ones(720) #On declare un tableau de 720 valeur
+	
+	if np.array_equal(tab,c):  #On test la moyenne et le nombre donnees
 		affiche()
 		sys.exit(int(sys.argv[1])) #Renvoie la valeur de la variable cas
+
 	else:	
 		sys.exit(-1)  #renvoie 255
 
