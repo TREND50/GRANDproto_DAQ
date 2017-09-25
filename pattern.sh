@@ -3,6 +3,11 @@
 # Pattern run
 # Parameters: pattern mode
 
+if [ $# != 2 ]
+then
+    echo "Usage:" $0 "<board ID> <pattern type>"
+    exit
+fi
 
 # Configuration
 BOARDID=$1
@@ -28,19 +33,20 @@ elif  [ $2 = "4"  ]
 then
   patterncfg=pattern_sync.cfg    
 else  
-  echo 'Wrong parameter value'
+  echo 'Wrong parameter value. Aborting.'
+  exit 0
 fi
 echo 'Calling ' $patterncfg
 
-tmux kill-window -t "aaa"
-
+# Clean
+tmux kill-window -t "w"
 # Execute run
-$DAQDIR/run.sh  1236 192.168.1.1$BOARDID $patterncfg $DATADIR/P$NRUN'_b'$BOARDID.data "aaa"
-$DAQDIR/run.sh  1236 192.168.1.1$BOARDID $patterncfg $DATADIR/P$NRUN'_b'$BOARDID.data "aaa"
+$DAQDIR/run.sh  1236 192.168.1.1$BOARDID $patterncfg $DATADIR/P$NRUN'_b'$BOARDID.data "w"
 
 
 # Log run id
 cp $patterncfg  $DATADIR/P$NRUN'_b'$BOARDID.cfg
 rm $DATADIR/last_run.txt
 echo $NRUN >> $DATADIR/last_run.txt
-tmux kill-window -t "aaa"
+echo "Now killing tmux window w." 
+tmux kill-window -t "w"

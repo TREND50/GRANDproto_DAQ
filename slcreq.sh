@@ -1,6 +1,11 @@
 # Pattern run
 # Parameters: pattern mode
 
+if [ $# != 1 ]
+then
+    echo "Usage:" $0 "<board ID>"
+    exit
+fi
 
 # Configuration
 BOARDID=$1
@@ -10,7 +15,6 @@ echo 'Present run ID' $NRUN
 
 
 # Execute run
-$DAQDIR/run.sh  1235 192.168.1.1$BOARDID slcreq.cfg $DATADIR/S$NRUN'_b'$BOARDID.data "bbb"
-$DAQDIR/run.sh  1235 192.168.1.1$BOARDID slcreq.cfg $DATADIR/S$NRUN'_b'$BOARDID.data "bbb"
-
-tmux kill-window -t "bbb"
+$DAQDIR/run.sh  1235 192.168.1.1$BOARDID slcreq.cfg $DATADIR/S$NRUN'_b'$BOARDID.data "wslc"
+echo "Now killing server wslc."
+tmux kill-window -t "wslc"

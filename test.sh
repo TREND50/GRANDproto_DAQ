@@ -3,10 +3,15 @@
 #VELLEYEN Stephane
 #22/09/2017 OMH
 
+if [ $# != 1 ]
+then
+    echo "Usage:" $0 "<board ID>"
+    exit
+fi
+
 MAC_adress=18:66:da:2c:4d:9e #on lpnws4062
 #MACAD=$(cat /sys/class/net/eth0/address)
 #echo $MACAD
-
 TESTDIR=$HOME/GRANDproto/tests   #on lpnws4062 
 vardate=$(date "+%y%m%d_%H%M") 
 mkdir -p $TESTDIR/board$1/$vardate
@@ -15,21 +20,19 @@ echo 'Creating test folder' $REPTEST
 export DATADIR=$REPTEST
 echo 'Data will be written to' $REPTEST
 zero=0
-echo $zero 
-echo 0 >> $DATADIR/last_run.txt
-#cp /home-local/GRANDproto/GRANDproto/data/last_run.txt $DATADIR/last_run.txt
+echo $zero >> $DATADIR/last_run.txt
 sleep 1
 
 
 # SET NET CONFIGURATION######################################################################
 
-while read line;
-do 
-  carte_adre=$(sed -n $1'p' configGedek.txt) #  
-done < configGedek.txt
-echo 'Board 1'$1' MAC adress is: '$carte_adre
+#while read line;
+#do 
+#  carte_adre=$(sed -n $1'p' configGedek.txt) #  
+#done < configGedek.txt
+#echo 'Board 1'$1' MAC adress is: '$carte_adre
 
-./configureGedek $carte_adre 192.168.1.1$1 192.168.1.1:1236 $MAC_adress 192.168.1.1:1235 $MAC_adress
+#./configureGedek $carte_adre 192.168.1.1$1 192.168.1.1:1236 $MAC_adress 192.168.1.1:1235 $MAC_adress
 
 # CHECK CONNECTION TO BOARD ###############################################################################
 
@@ -61,7 +64,7 @@ mv ping.txt $REPTEST
 
 # CHECK SLOW CONTROL ####################################################################################
 
-./slcreq.sh $1	#Execution du slcreq
+./slcreq.sh $1  #Execution du slcreq
 NRUN=$(<$DATADIR/last_run.txt)
 fichier='S'$NRUN'_b'$1'.data'
 slcfile=$REPTEST/$fichier
@@ -74,29 +77,27 @@ then
 else
   c1="##########DAQ communication to board failed   ######" 
   echo $c1
+  exit 0
 fi
 
 #####################################################################################
 
-err="Erreur pattern"
+
+# CHECK PATTERN CONTROL ####################################################################################
 i=0
-
-
 while ((i<5))
-
 do
-  python test_pattern.py $1 $i $DATADIR	#ON lance le programme de test des resultat du pattern
-  sleep 1
-  
-  if test $? -eq 255
-  then
-    echo $err
-    exit 0	
-  fi
-
-let i++
-	
+  echo "*** Now calling ./pattern.sh" $1 $i
+  ./pattern.sh $1 $i
+  python test_pattern.py $1 $i $DATADIR  	
+#  echo "Result=" $coco
+#  if 1==0
+#  #if test $? -eq 255
+#  then
+#    echo "Error pattern type $i"
+#    exit 0	
+#  fi
+ let i++	
 done 
 				
-test="sucess pattern"
-echo $test
+echo "Pattern test completed"

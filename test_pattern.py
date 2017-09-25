@@ -1,6 +1,7 @@
 
 #/06/2017
 #VELLEYEN Stephane
+# 25/09/2017 OMH
 
 import os
 import time
@@ -15,23 +16,14 @@ DATADIR=sys.argv[3]
 
 def read():
 
-  #DATADIR='/home-local/GRANDproto/GRANDproto/data/'
-  #DATADIR='/home/trend/Documents/testbench/'
-  print DATADIR
-  file=open(DATADIR+'/last_run.txt','r') 
-  data=file.read(1)  	#On recupere le numero du dernier fichier  de data modifie
-  print 'RunID=',data
-  file.close()
-
-
-  fichier=DATADIR+'/P'+str(data)+'_b'+boardid+'.data' 
-  # print fichier
-
+  file = DATADIR+'/last_run.txt'
+  rid = str(int(np.loadtxt(file)))
+  fichier=DATADIR+'/P'+str(rid)+'_b'+boardid+'.data' 
+  print 'Reading pattern data file',fichier
   file = open(fichier,'r')
-
   evts = file.read().split('-----------------') # Definition d'un evenements
-
-  nevts = len(evts)-1
+  nevts = len(evts)-1  # take last event
+  file.close()
 
 
   j = 0;  # Index of array filling (because date & data are "append")
@@ -51,103 +43,44 @@ def read():
           test1 = np.mean(ievts2) 
 
 	  if np.size(ievts2) != 720:
-	      print "##########Erreur##########"
+	      print "##########Error: event size != 90*2*4=720 ##########"
 	      sys.exit(-1)
   
   return ievts2 #renvoie les donnees 	
 
 
+def main():		
+  tab=read()
 
-def affiche():
+  if cas=="0":
+  	  a=0*np.ones(720) #On declare un tableau de 720 valeurs
 
-#  print 'Number of events:',nevts
-#  print "Moyenne:",test1 
-#  print "Nombre de donnees:",np.size(ievts2)
-  print "sucess"
+  elif cas=="1":
+  	  a=4095*np.ones(720) #On declare un tableau de 720 valeur
+ 
+  elif cas=="2":
+  	  a=2730*np.ones(720) #On declare un tableau de 720 valeur
+  	  m = range(720)
+  	  m2 = (np.asarray(m)%2 != 0)  # Start with 2730
+  	  a[m2] = 1365
+ 
+  elif cas=="3":
+  	  a=819*np.ones(720) #On declare un tableau de 720 valeur
 
-		
+  elif cas=="4":
+  	  a=4032*np.ones(720) #On declare un tableau de 720 valeur
 
-cmd = './pattern.sh ' + boardid + ' ' +cas
-print cmd
-os.system(cmd)   #On lance le test pattern
+  #print tab
+  #print a
+  if np.array_equal(tab,a):  #On teste la moyenne et le nombre donnees
+    print "Pattern ", cas, ": sucess."
+    return 1 #Renvoie la valeur de la variable cas
 
-if cas=="0":
+  else:
+    print "Pattern ", cas, ": failed."
+    return 0  #renvoie 255
 
-	tab=read()
-
-  	a=0*np.ones(720) #On declare un tableau de 720 valeur	
-
-	if np.array_equal(tab,a):  #On test la moyenne et le nombre donnees
-		affiche()
-		sys.exit(int(sys.argv[1])) #Renvoie la valeur de la variable cas 
-
-	else:	
-		sys.exit(-1)  #renvoie 255
-
-elif cas=="1":
-  	
-	tab=read()
-
-	b=np.ones(720) #On declare un tableau de 720 valeur
-	
-	if np.array_equal(tab,b): #On test la moyenne et le nombre donnees
-		affiche()
-		sys.exit(int(sys.argv[1])) #Renvoie la valeur de la variable cas
-
-	else:	
-		sys.exit(-1)  #renvoie 255
+if __name__ == '__main__':
+   main()
 
 
-elif cas=="2":
-
-	tab=read()
-        print tab
-  	e=2730*np.ones(720) #On declare un tableau de 720 valeur
-
-  	m =range(720)	
-  	m2 = (m%2 != 0)  # Start with 2730
-  	e[m2] = 1365
-
-	if np.array_equal(tab,e):
-		affiche()
-		sys.exit(int(sys.argv[1])) #Renvoie la valeur de la variable cas
-	else:	
-		sys.exit(-1)  #renvoie 255
-
-elif cas=="3":
-
-	tab=read()
-        print tab
-  	d=819*np.ones(720) #On declare un tableau de 720 valeur
-
-
-	if np.array_equal(tab,d): #On test la moyenne et le nombre donnees
-		affiche()
-		sys.exit(int(sys.argv[1])) #Renvoie la valeur de la variable cas
-	else:	
-		sys.exit(-1)  #renvoie 255
-
-
-elif cas=="4":
-
-	tab=read()
-        print tab
-  	c=4032*np.ones(720) #On declare un tableau de 720 valeur
-	
-	if np.array_equal(tab,c):  #On test la moyenne et le nombre donnees
-		affiche()
-		sys.exit(int(sys.argv[1])) #Renvoie la valeur de la variable cas
-
-	else:	
-		sys.exit(-1)  #renvoie 255
-
-else:
-	print "##########Erreur_pattern##########"
-	sys.exit(-1)
-
-
-
-file.close()
-
-
-		

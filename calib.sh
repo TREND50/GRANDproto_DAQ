@@ -1,6 +1,11 @@
 # Pattern run
 # Parameters: pattern mode
 
+if [ $# != 3 ]
+then
+    echo "Usage:" $0 "<board ID> <Att1> <Att2>"
+    exit
+fi
 
 # Configuration
 BOARDID=$1
@@ -16,18 +21,18 @@ fi
 awk '/Attr1/{$3='$2'}1;' calibgen.cfg > temp.cfg
 awk '/Attr2/{$3='$3'}1;' temp.cfg > calib$NRUN.cfg
 
-tmux kill-window -t "aaa"
-
+# Clean
+tmux kill-window -t "w"
 # Execute run
-for i in {1..501}
+for i in {1..500}
 do 
   echo 'Event' $i
-  $DAQDIR/run.sh  1236 192.168.1.1$BOARDID calib$NRUN.cfg $DATADIR/C$NRUN'_b'$BOARDID.data "aaa"
+  $DAQDIR/run.sh  1236 192.168.1.1$BOARDID calib$NRUN.cfg $DATADIR/C$NRUN'_b'$BOARDID.data "w"
 done  
 
 # Log run id
 mv calib$NRUN.cfg  $DATADIR/C$NRUN'_b'$BOARDID.cfg
 rm $DATADIR/last_run.txt
 echo $NRUN >> $DATADIR/last_run.txt
-
-tmux kill-window -t "aaa"
+echo "Now killing tmux window w." 
+tmux kill-window -t "w"
