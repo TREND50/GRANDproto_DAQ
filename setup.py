@@ -16,7 +16,7 @@ module1=Extension('pyef.native',
                       include_dirs=[],
                       libraries=[boost_python_lib],
                       library_dirs=[],
-                      extra_compile_args=['-std=c++17','-O1'],
+                      extra_compile_args=['-std=c++14','-O1'],
                       sources=['pyef.cpp', 'data_file.cpp'],
                       language='c++')
 #module1.extra_compile_args+=['-DUSE_OMP_TRANSFORM','-fopenmp']
