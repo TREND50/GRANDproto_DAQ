@@ -3,8 +3,60 @@
 #include <cstdint>
 #include <iostream>
 #include <vector>
+#if __cplusplus >=201703L
 #include <optional>
+#else
 
+namespace std
+{
+    template <typename T>
+    class optional
+    {
+    private:
+        T _value;
+        bool _value_set;
+    public:
+        optional(const T& rhs)
+        :_value(rhs),_value_set(true)
+        {}
+
+        optional(optional<T>&& rhs)=default;
+        optional(const optional<T>& rhs)=default;
+        optional()
+        :_value(), _value_set(false)
+        {}
+
+        optional<T>& operator=(const optional<T>& rhs)=default;
+        bool operator==(const optional<T>& rhs)const
+        {
+            if(!_value_set&&rhs._value_set)
+            {
+                return true;
+            }
+            else
+            {
+                return _value_set==rhs._value_set&&_value==rhs._value;
+            }
+        }
+        operator bool()const
+        {
+            return _value_set;
+        }
+    public:
+        T& value()
+        {
+            return _value;
+        }
+
+        const T& value()const
+        {
+            return _value;
+        }
+    };
+}
+
+
+#endif
 enum class write_result
 {
     OK,FAILED
