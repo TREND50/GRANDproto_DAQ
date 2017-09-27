@@ -3,6 +3,17 @@
 #include <cstdint>
 #include <iostream>
 #include <vector>
+#include <optional>
+
+enum class write_result
+{
+    OK,FAILED
+};
+
+enum class read_result
+{
+    OK, FAILED
+};
 
 struct basic_file_header_t
 {
@@ -26,9 +37,19 @@ struct file_header_t
     file_header_t &operator= (const file_header_t &) = default;
     file_header_t (const basic_file_header_t &bfh, const std::vector<std::uint32_t> &ah);
 
-    void read_from (std::istream &is);
-    void write_to (std::ostream &os) const;
+    read_result read_from (std::istream &is);
+    write_result write_to (std::ostream &os) const;
     std::size_t size () const;
+
+    std::int32_t length()const;
+    std::int32_t runnr()const;
+    std::int32_t run_mode()const;
+    std::int32_t serial()const;
+    std::int32_t first_event()const;
+    std::int32_t first_event_sec()const;
+    std::int32_t last_event()const;
+    std::int32_t last_event_sec()const;
+    std::vector<std::uint32_t> get_additional_header()const;
 };
 
 std::ostream &operator<< (std::ostream &os, const basic_file_header_t &bfh);
@@ -48,6 +69,7 @@ struct event_header_t
     std::int32_t ad1;
     std::int32_t ad2;
     std::int32_t ls_cnt;
+    bool operator==(const event_header_t& rhs)const;
 };
 
 std::ostream &operator<< (std::ostream &os, const event_header_t &eh);
@@ -67,6 +89,8 @@ struct local_station_header_t
     std::uint16_t ADC_resolution;
     std::uint16_t trace_length;
     std::uint16_t version;
+
+    bool operator==(const local_station_header_t&)const;
 };
 
 std::ostream &operator<< (std::ostream &os, const local_station_header_t &lsh);
@@ -83,9 +107,9 @@ struct local_station_t
     local_station_t (const local_station_header_t &lsh,
                      const std::vector<std::uint16_t> &hd,
                      const std::vector<std::uint16_t> &ab);
-
-    void read_from (std::istream &is);
-    void write_to (std::ostream &os) const;
+    bool operator==(const local_station_t&)const;
+    read_result read_from (std::istream &is);
+    write_result write_to (std::ostream &os) const;
     std::size_t size () const;
 };
 
@@ -102,12 +126,31 @@ struct event_t
     event_t (const event_header_t &h);
 
     void append_local_station (const local_station_t &ls);
-    void read_from (std::istream &is);
-    void write_to (std::ostream &os) const;
+    read_result read_from (std::istream &is);
+    write_result write_to (std::ostream &os) const;
     std::size_t size () const;
+    bool operator==(const event_t& rhs)const;
+};
+
+struct event_file
+{
+    file_header_t header;
+    std::vector<event_t> event_list;
+    event_file(std::istream& is);
+    event_file()=default;
+    event_file(const event_file&)=default;
+    ~event_file()=default;
+    event_file& operator=(const event_file&)=default;
+
+    read_result read_from(std::istream& is);
+    write_result write_to(std::ostream& os)const;
 };
 
 std::ostream &operator<< (std::ostream &os, const event_t &e);
 
+std::optional<file_header_t> read_file_header(std::istream& is);
+std::optional<event_t> read_event(std::istream& is);
+
+event_file read_event_file(const std::string& fname);
 
 #endif

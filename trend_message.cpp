@@ -666,8 +666,8 @@ local_station_t TRENDData::to_local_station_t () const
         (std::uint16_t) (
         0x0000ffff & header.IP), // choose only lower 16 bits (totally 32 bits) of the IP address
         0, // header length, zero, will be updated
-        0, // gps seconds to zero
-        0, // gps nanosec set to zero, at the moment. TODO: write the correct form
+        header.SSS, // gps seconds to zero
+        (std::uint32_t)((4*header.TS2+header.TS1PPS-header.TS1Trigger)*2.1), // gps nanosec set to zero, at the moment. TODO: write the correct form
         (std::uint16_t)header.TrigPattern, // trigger flag set to be blank
         0, // trigger pos set to zero
         0, // sampling freq, set to zero

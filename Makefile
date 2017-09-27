@@ -1,9 +1,9 @@
 targets:trend_server send_msg bcast_msg trend_daqconf trend_getconf trend_netconf dump_bin_file
 
 CXX=clang++
-CXX_FLAGS=-O3 -pthread -std=c++14 -g
+CXX_FLAGS=-O3 -pthread -std=c++17 -g
 
-LD_FLAGS=-lboost_system -pthread -std=c++14
+LD_FLAGS=-lboost_system -pthread -std=c++17
 
 trend_server:trend_server.o trend_message.o data_file.o
 	$(CXX) $^ -o $@ $(LD_FLAGS)

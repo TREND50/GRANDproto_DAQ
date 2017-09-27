@@ -269,13 +269,13 @@ int main (int argc, char *argv[])
                         local_station_t ls = ptd->to_local_station_t ();
                         event_header_t eh{
                             0, 0, (std::int32_t)ptd->header.EC, 0, 0,
-                            0, // event sec
-                            0, // event nsec
+                            (std::int32_t)ptd->header.SSS, // event sec
+                            (std::int32_t)((4*ptd->header.TS2+ptd->header.TS1PPS-ptd->header.TS1Trigger)*2.1), // event nsec
                             0, // type
                             0, // ver
                             0, // ad1
                             0, // ad2
-                            1 // lscnt
+                            1// lscnt
                         };
 
                         event_t event (eh);
