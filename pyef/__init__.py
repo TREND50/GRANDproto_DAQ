@@ -69,8 +69,9 @@ def print_event(ev):
 
 
 def print_event_list(el):
-    for i in el:
-        print_event(i)
+    for i in range(len(el)):
+        print("------event {0}------".format(i))
+        print_event(el[i])
 
 
 def print_event_file(ef):

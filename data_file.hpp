@@ -200,6 +200,8 @@ struct event_file
 
 std::ostream &operator<< (std::ostream &os, const event_t &e);
 
+std::ostream &operator<< (std::ostream& os, const event_file& ef);
+
 std::optional<file_header_t> read_file_header(std::istream& is);
 std::optional<event_t> read_event(std::istream& is);
 

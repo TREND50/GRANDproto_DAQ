@@ -285,9 +285,10 @@ std::size_t event_t::size () const
 std::ostream &operator<< (std::ostream &os, const event_t &e)
 {
     os << e.header << std::endl;
-    for (auto &x : e.local_station_list)
+    for (std::size_t i=0;i< e.local_station_list.size();++i)
         {
-            os << x << std::endl;
+            os<<"LS "<<i<<std::endl;
+            os << e.local_station_list[i] << std::endl;
         }
     return os;
 }
@@ -331,6 +332,17 @@ write_result event_file::write_to(std::ostream& os)const
         }
     }
     return write_result::OK;
+}
+
+std::ostream &operator<< (std::ostream& os, const event_file& ef)
+{
+    os<<ef.header<<std::endl;
+    for(std::size_t i=0;i<ef.event_list.size();++i)
+    {
+        os<<"Event "<<i<<std::endl;
+        os<<ef.event_list[i]<<std::endl;
+    }
+    return os;
 }
 
 std::optional<file_header_t> read_file_header(std::istream& is)

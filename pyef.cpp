@@ -57,6 +57,7 @@ BOOST_PYTHON_MODULE (native)
     .def("last_event", &file_header_t::last_event)
     .def("last_event_sec", &file_header_t::last_event_sec)
     .def("additional_header", &file_header_t::get_additional_header)
+    .def(str(self))
     ;
 
     class_<event_header_t>("event_header", boost::python::init<>())
@@ -72,6 +73,7 @@ BOOST_PYTHON_MODULE (native)
     .def_readonly("ad1",&event_header_t::ad1)
     .def_readonly("ad2",&event_header_t::ad2)
     .def_readonly("ls_cnt",&event_header_t::ls_cnt)
+    .def(str(self))
     ;
 
     class_<local_station_header_t>("local_station_header", boost::python::init<>())
@@ -88,22 +90,26 @@ BOOST_PYTHON_MODULE (native)
     .def_readonly("ADC_resolution", &local_station_header_t::ADC_resolution)
     .def_readonly("trace_length", &local_station_header_t::trace_length)
     .def_readonly("version", &local_station_header_t::version)
+    .def(str(self))
     ;    
 
     class_<local_station_t>("local_station", boost::python::init<>())
     .def_readonly("header", &local_station_t::header)
     .def_readonly("header_data", &local_station_t::header_data)
     .def_readonly("adc_buffer", &local_station_t::adc_buffer)
+    .def(str(self))
     ;
 
     class_<event_t>("event", boost::python::init<>())
     .def_readonly("header", &event_t::header)
     .def_readonly("local_station_list", &event_t::local_station_list)
+    .def(str(self))
     ;
 
     class_<event_file>("event_file", boost::python::init<>())
     .def_readonly("header", &event_file::header)
     .def_readonly("event_list", &event_file::event_list)
+    .def(str(self))
     ;
 
     def("read_event_file", read_event_file);
