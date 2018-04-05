@@ -41,7 +41,7 @@ echo 'Calling ' $patterncfg
 # Clean
 tmux kill-window -t "w"
 # Execute run
-$DAQDIR/run.sh  1236 192.168.1.1$BOARDID $patterncfg $DATADIR/P$NRUN'_b'$BOARDID.data "w"
+$DAQDIR/run.sh  1236 192.168.1.$BOARDID $patterncfg $DATADIR/P$NRUN'_b'$BOARDID.data "w"
 
 
 # Log run id
