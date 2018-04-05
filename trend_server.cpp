@@ -281,6 +281,7 @@ int main (int argc, char *argv[])
                         event_t event (eh);
                         event.append_local_station (ls);
                         event.write_to (ofs_bin);
+                        ofs_bin.flush();
                     }
                 std::ofstream ofs (txt_fname.c_str (), std::fstream::app);
                 ofs << "-----------------" << std::endl;
