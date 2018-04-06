@@ -41,11 +41,11 @@ echo 'Calling ' $patterncfg
 # Clean
 tmux kill-window -t "w"
 # Execute run
-$DAQDIR/run.sh  1236 192.168.1.$BOARDID $patterncfg $DATADIR/P$NRUN'_b'$BOARDID.data "w"
+$DAQDIR/run.sh  1236 192.168.1.1$BOARDID $patterncfg $DATADIR/P$NRUN'_b'$BOARDID.data "w"
 
 
 # Log run id
-cp $patterncfg  $DATADIR/P$NRUN'_b'$BOARDID.cfg
+cp $patterncfg  $DATADIR/P$NRUN'_b'1$BOARDID.cfg
 rm $DATADIR/last_run.txt
 echo $NRUN >> $DATADIR/last_run.txt
 echo "Now killing tmux window w." 
