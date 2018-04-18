@@ -30,7 +30,7 @@ then
 fi
 
 # SET NET CONFIGURATION########################################
-cd libGedek
+cd setAdress
 while read line;
 do 
   carte_adre=$(sed -n $1'p' configGedek.txt) #  
