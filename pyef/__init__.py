@@ -77,5 +77,7 @@ def print_event_list(el):
 def print_event_file(ef):
     print("================")
     print_file_header(ef.header)
+    print("================")
+    print("Now printing event list:")
     print_event_list(ef.event_list)
     print("================")

@@ -1,0 +1,17 @@
+libGedek is a library thart allow to change GEDEK IP and other communciation parameters.
+
+The libGedek directory contains the source code of the library.
+
+configureGedek.c is a source file that is use to create a command line utility to change the GEDEk parameters.
+
+
+Compilation:
+make
+
+To give "cap_net_raw=ep" capability to configureGedek:
+sudo make setcap
+
+Usage:
+./configureGedek GEDEK_MAC_ADRESS NEW_GEDEK_IP DESTINATION_IP1:DESTINATION_PORT1 DESTINATION_MAC_ADDRESS1 DESTINATION_IP2:DESTINATION_PORT2 DESTINATION_MAC_ADDRESS2
+
+./configureGedek 00:07:11:A6:9E:C7 192.168.1.20 192.168.1.207:2000 80:3F:5D:70:6E:7C 192.168.1.208:2001 80:3F:5D:70:6E:7D

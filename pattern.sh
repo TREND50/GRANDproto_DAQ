@@ -11,7 +11,11 @@ fi
 
 # Configuration
 BOARDID=$1
-NRUN=$(<$DATADIR/last_run.txt)
+
+#DATADIR=$HOME/GRANDproto/tests/board01/170925_1950
+
+echo "Reading $DATADIR/last_run.txt"
+NRUN=$(<$DATADIR/last_run.txt)  # Cannot be executed within a python script.
 echo 'Present run ID' $NRUN
 NRUN=$(($NRUN+1))
 echo 'New run ID' $NRUN
@@ -45,7 +49,7 @@ $DAQDIR/run.sh  1236 192.168.1.1$BOARDID $patterncfg $DATADIR/P$NRUN'_b'$BOARDID
 
 
 # Log run id
-cp $patterncfg  $DATADIR/P$NRUN'_b'1$BOARDID.cfg
+cp $patterncfg  $DATADIR/P$NRUN'_b'$BOARDID.cfg
 rm $DATADIR/last_run.txt
 echo $NRUN >> $DATADIR/last_run.txt
 echo "Now killing tmux window w." 

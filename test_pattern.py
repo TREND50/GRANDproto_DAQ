@@ -8,17 +8,20 @@ import time
 import sys
 import math
 import numpy as np
+import pylab as pl
 
 boardid=sys.argv[1]
 cas=sys.argv[2]
 DATADIR=sys.argv[3]
-
+siz = 2*90 # event size
+off = 1  # Skip 1st sample for each channel
+sizc = 4*(siz-(off+1))
 
 def read():
 
   file = DATADIR+'/last_run.txt'
   rid = str(int(np.loadtxt(file)))
-  fichier=DATADIR+'/P'+str(rid)+'_b'+boardid+'.data' 
+  fichier=DATADIR+'/P'+str(rid)+'_b'+boardid+'.data.txt' 
   print 'Reading pattern data file',fichier
   file = open(fichier,'r')
   evts = file.read().split('-----------------') # Definition d'un evenements
@@ -38,12 +41,16 @@ def read():
 
    	  # Data
    	  raw=evtsplit[9:][:]  #raw data
-          evts2 = raw[0].split(' ') # Cut raw data list into samples
-          ievts2 = [int(i) for i in evts2[0:np.size(evts2)-1]] 
-          test1 = np.mean(ievts2) 
-
-	  if np.size(ievts2) != 720:
-	      print "##########Error: event size != 90*2*4=720 ##########"
+          
+	  evts2 = raw[0].split(' ') # Cut raw data list into samples	  
+	  ievts2 = [int(i) for i in evts2[0:np.size(evts2)-1]]   #Skip first samples
+	  index1st = [range(off+1),range(siz,siz+off+1),range(2*siz,2*siz+off+1),range(3*siz,3*siz+off+1)]
+	  ievts2 = np.delete(ievts2,index1st)
+	  test1 = np.mean(ievts2) 
+	  print 'Mean value for test=',test1
+       
+          if np.size(ievts2) != sizc:
+	      print '##########Error: event size !=',sizc,' ##########'
 	      sys.exit(-1)
   
   return ievts2 #renvoie les donnees 	
@@ -53,27 +60,24 @@ def main():
   tab=read()
 
   if cas=="0":
-  	  a=0*np.ones(720) #On declare un tableau de 720 valeurs
-
+  	  a=0*np.ones(sizc) #On declare un tableau de 720 valeurs
   elif cas=="1":
-  	  a=4095*np.ones(720) #On declare un tableau de 720 valeur
- 
+  	  a=4095*np.ones(sizc) #On declare un tableau de 720 valeur
   elif cas=="2":
-  	  a=2730*np.ones(720) #On declare un tableau de 720 valeur
-  	  m = range(720)
+  	  a=1365*np.ones(sizc) #On declare un tableau de 720 valeur
+  	  m = range(sizc)
   	  m2 = (np.asarray(m)%2 != 0)  # Start with 2730
-  	  a[m2] = 1365
- 
+  	  a[m2] = 2730 
   elif cas=="3":
-  	  a=819*np.ones(720) #On declare un tableau de 720 valeur
+  	  a=819*np.ones(sizc) #On declare un tableau de 720 valeur
 
   elif cas=="4":
-  	  a=4032*np.ones(720) #On declare un tableau de 720 valeur
+  	  a=int(4032)*np.ones(sizc) #On declare un tableau de 720 valeur
+  print 'Value expected=',np.mean(a)
 
-  #print tab
-  #print a
+  
   if np.array_equal(tab,a):  #On teste la moyenne et le nombre donnees
-    print "Pattern ", cas, ": sucess."
+    print "Pattern ", cas, ": success."
     return 1 #Renvoie la valeur de la variable cas
 
   else:
