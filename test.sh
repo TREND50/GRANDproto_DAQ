@@ -24,7 +24,7 @@ fi
 export REPTEST=$DATADIR
 echo 'Data will be written to' $REPTEST
 
-testping=0
+testping=1
 testslc=1
 testpattern=1
 testcalib=0 #2mins
