@@ -1,9 +1,9 @@
 # Pattern run
 # Parameters: pattern mode
 
-if [ $# != 1 ]
+if [ $# != 2 ]
 then
-    echo "Usage:" $0 "<board ID>"
+    echo "Usage:" $0 "<board ID> <loop>"
     exit
 fi
 
@@ -15,6 +15,6 @@ echo 'Present run ID' $NRUN
 
 
 # Execute run
-$DAQDIR/run.sh  1235 192.168.1.1$BOARDID slcreq.cfg $DATADIR/S$NRUN'_b'$BOARDID.data "wslc"
+$DAQDIR/run.sh  1235 192.168.1.1$BOARDID slcreq.cfg $DATADIR/S$NRUN'_b'$BOARDID.data "wslc" $2  # Ask for a loop
 echo "Now killing server wslc."
 tmux kill-window -t "wslc"

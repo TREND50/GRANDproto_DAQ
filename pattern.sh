@@ -13,7 +13,7 @@ fi
 BOARDID=$1
 
 #DATADIR=$HOME/GRANDproto/tests/board01/170925_1950
-
+echo $DATADIR
 echo "Reading $DATADIR/last_run.txt"
 NRUN=$(<$DATADIR/last_run.txt)  # Cannot be executed within a python script.
 echo 'Present run ID' $NRUN
@@ -45,8 +45,8 @@ echo 'Calling ' $patterncfg
 # Clean
 tmux kill-window -t "w"
 # Execute run
-$DAQDIR/run.sh  1236 192.168.1.1$BOARDID $patterncfg $DATADIR/P$NRUN'_b'$BOARDID.data "w"
-
+$DAQDIR/run.sh 1236 192.168.1.1$BOARDID $patterncfg $DATADIR/P$NRUN'_b'$BOARDID.data "w" 0
+#sleep 2
 
 # Log run id
 cp $patterncfg  $DATADIR/P$NRUN'_b'$BOARDID.cfg
