@@ -3,7 +3,9 @@ sleep 1
 
 REPTEST=$2
 #PCMAC_adress="18:66:da:2c:4d:9e" #on lpnws4062
-PCMAC_adress="08:00:27:2e:a4:1a" # on XPS13 latptop 
+#PCMAC_adress="08:00:27:2e:a4:1a" # on XPS13 latptop 
+PCMAC_adress="00:1f:16:28:64:ef" # on lpnlp61
+
 echo "  **** Warning: assuming PC MAC adress is" $PCMAC_adress 
 if test 1 -eq 2
 then

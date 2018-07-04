@@ -24,11 +24,11 @@ awk '/Attr2/{$3='$3'}1;' temp.cfg > calib$NRUN.cfg
 # Clean
 tmux kill-window -t "w"
 # Execute run
-for i in {1..500}
-do 
-  echo 'Event' $i
-  $DAQDIR/run.sh  1236 192.168.1.1$BOARDID calib$NRUN.cfg $DATADIR/C$NRUN'_b'$BOARDID.data "w"
-done  
+$DAQDIR/run.sh  1236 192.168.1.1$BOARDID calib$NRUN.cfg $DATADIR/C$NRUN'_b'$BOARDID.data "w" 1
+#for i in {1..500}
+#do 
+#  echo 'Event' $i
+#done  
 
 # Log run id
 mv calib$NRUN.cfg  $DATADIR/C$NRUN'_b'$BOARDID.cfg

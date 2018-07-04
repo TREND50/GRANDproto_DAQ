@@ -14,12 +14,12 @@ NRUN=$(($NRUN+1))
 
 # Clean
 tmux kill-window -t "w"  
-for i in {1..1000}
-do 
-  echo 'Event' $i
-  # Execute run
-  $DAQDIR/run.sh  1236 192.168.1.1${BOARDID} minbias.cfg $DATADIR/M$NRUN'_b'$BOARDID.data "w"
-done
+# Execute run
+$DAQDIR/run.sh  1236 192.168.1.1${BOARDID} minbias.cfg  $DATADIR/M$NRUN'_b'$BOARDID.data "w" 1
+#for i in {1..1000}
+#do 
+#  echo 'Event' $i
+#done
 
 # Log run id
 cp minbias.cfg  $DATADIR/M$NRUN'_b'$BOARDID.cfg

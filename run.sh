@@ -46,13 +46,14 @@ echo "Now sending message to board."
 echo $loop
 if [ "$loop" == 1 ]
 then
-  for i in {1..100000}
+  for i in {1..100}
   do 
-    echo "Now sending request" $i ", then sleep 1s."
+    echo "Now sending request" $i ", then sleep 0.1s."
     ./send_msg $BIP $BPORT $CFG
-    sleep 1
+    sleep 0.1
   done
 else
   echo "Now sending message to board."
   ./send_msg $BIP $BPORT $CFG
 fi
+

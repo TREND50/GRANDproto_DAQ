@@ -10,7 +10,7 @@
 using namespace std;
 using boost::asio::ip::udp;
 
-#define VERBOSE
+//#define VERBOSE
 
 //modify the port here: 4242 is an example
 const int port=1234;
