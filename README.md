@@ -1,19 +1,19 @@
 # GRANDproto_DAQ
-DAQ software for GRANDproto
+DAQ software for GRANDProto35
 
-##Required libraries
+##Required libraries:
 boost-asio
-
+tmux
 
 ##Build
-make clean&&make
+make clean; make
 
 ## To send message to a board
 ./sendmsg <dest IP addr> <port> <cfg file>
 
 ## To run a server to receive message from a board
 ./trend_server <port> [output file prefix]
-TRENDDATA message will be written to prefix.bin
+TRENDDATA message will be written to prefix.bin (and prefix.txt temporarly)
 Other messages will be written to prefix.txt
 
 ## Function of the programms
