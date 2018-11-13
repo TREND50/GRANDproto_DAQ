@@ -4,8 +4,7 @@ sleep 1
 REPTEST=$2
 #PCMAC_adress="18:66:da:2c:4d:9e" #on lpnws4062
 #PCMAC_adress="08:00:27:2e:a4:1a" # on XPS13 latptop 
-PCMAC_adress="00:1f:16:28:64:ef" # on lpnlp61
-
+PCMAC_adress="0c:c4:7a:27:a5:2f" # @ Ulastai Old
 echo "  **** Warning: assuming PC MAC adress is" $PCMAC_adress 
 if test 1 -eq 2
 then
@@ -39,7 +38,7 @@ do
   carte_adre=$(sed -n $1'p' configGedek.txt) #  
 done < configGedek.txt
 echo 'Board 1'$1' registered in configGedek.txt with MAC adress: '$carte_adre
-sudo ./configureGedek $carte_adre 192.168.1.1$1 192.168.1.1:1236 $PCMAC_adress 192.168.1.1:1235 $PCMAC_adress
+sudo ./configureGedek $carte_adre 192.168.1.1$1 192.168.1.2:1236 $PCMAC_adress 192.168.1.2:1235 $PCMAC_adress
 cd ..
 
 # CHECK NEW IP OK #########################################

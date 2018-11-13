@@ -40,14 +40,14 @@ fi
 tmux select-pane -t 0
 echo "Now starting server."
 tmux send-keys "./trend_server $SPORT $DUMP_FILE" C-m
-sleep .5  # Needed on laptop
+#sleep .5  # Needed on laptop
 echo "Now sending message to board."
+sleep 0.1
 
-echo $loop
-if [ "$loop" == 1 ]
+echo "Nloops="$loop
+if [ $loop -gt 1 ]
 then
-  for i in {1..100}
-  do 
+  for i in $(seq 1 $loop); do 
     echo "Now sending request" $i ", then sleep 0.1s."
     ./send_msg $BIP $BPORT $CFG
     sleep 0.1
@@ -56,4 +56,3 @@ else
   echo "Now sending message to board."
   ./send_msg $BIP $BPORT $CFG
 fi
-

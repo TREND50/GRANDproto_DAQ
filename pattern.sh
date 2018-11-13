@@ -12,8 +12,8 @@ fi
 # Configuration
 BOARDID=$1
 
-#DATADIR=$HOME/GRANDproto/tests/board01/170925_1950
-echo $DATADIR
+#DATADIR=$HOME/data
+echo "DATADIR="$DATADIR
 echo "Reading $DATADIR/last_run.txt"
 NRUN=$(<$DATADIR/last_run.txt)  # Cannot be executed within a python script.
 echo 'Present run ID' $NRUN
